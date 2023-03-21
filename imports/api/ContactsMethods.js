@@ -32,5 +32,5 @@ Meteor.methods({
         check(contactId, String );
         ContactsCollection.update({ _id: contactId}, {$set: { archived: true}});
     }
-})
+});
 

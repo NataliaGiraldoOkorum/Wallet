@@ -1,6 +1,8 @@
 import React, { memo } from "react";
 import ContactsCollection from "../api/ContactsCollection";
 import { useSubscribe, useFind } from 'meteor/react-meteor-data';
+import Loading from './components/Loading';
+
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -15,7 +17,12 @@ import ArchiveIcon from '@mui/icons-material/Archive';
 
 export const ContactList = () => {
     const isLoading = useSubscribe('contacts');
-    const contacts = useFind(() => ContactsCollection.find({ archived: { $ne: true }}, { sort: { createdAt: -1 } }));
+    const contacts = useFind(() => 
+    ContactsCollection.find(
+        { archived: { $ne: true }}, 
+        { sort: { createdAt: -1 } }
+        )
+    );
 
 
     const archiveContact = (event, _id) => {
@@ -24,13 +31,8 @@ export const ContactList = () => {
         Meteor.call('contacts.archive', { contactId: _id });
     }
 
-
     if (isLoading()) {
-        return (
-        <div>
-            <h3>Loading...</h3>
-        </div>
-        )
+        return < Loading />
     }
 
     const ContactItem = memo(({ contact }) => {

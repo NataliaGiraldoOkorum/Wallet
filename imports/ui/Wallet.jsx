@@ -1,20 +1,32 @@
 import * as React from 'react';
+import { ModalAlert }  from './components/ModalAlert';
+import { useSubscribe, useFind } from 'meteor/react-meteor-data';
+import SelectContact from './components/SelectContact';
+import Loading from './components/Loading';
+
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { ModalAlert }  from './components/ModalAlert';
 import TextField from '@mui/material/TextField';
 
 
 export default function Wallet() {
-  
+  const isLoadingContacts = useSubscribe('contacts');
+    const contacts = useFind(() => 
+    ContactsCollection.find(
+      { archived: { $ne: true }}, 
+      { sort: { createdAt: -1 } }
+      )
+    );
+
+
   const [open, setOpen] = React.useState(false);
   const [isTransfering, setIsTransfering] = React.useState(false);
   const [amount, setAmount] = React.useState(0);
-  const [destinationWallet, setDestinationWallet] = React.useState(false);
+  const [destinationWallet, setDestinationWallet] = React.useState({});
   const [errorMessage, setErrorMessage] = React.useState("");
 
 
@@ -26,6 +38,10 @@ export default function Wallet() {
 
   const addTransaction = () => {
     console.log('New transaction', amount, destinationWallet);
+  }
+
+  if(isLoadingContacts()){
+    return <Loading />
   }
 
   const card = (
@@ -91,15 +107,26 @@ export default function Wallet() {
           <>
             {isTransfering && (
               <Box >
-              <TextField id="destination" label="Destination Wallet" variant="standard" type="text"
+              {/* <TextField id="destination" label="Destination Wallet" variant="standard" type="text"
                 value={destinationWallet}
                 onChange={(e) => setDestinationWallet(e.target.value)}
+                /> */}
+                <SelectContact 
+                  title="Destination contact"
+                  contacts= {contacts}
+                  selected ={destinationWallet}
+                  setSelected={setDestinationWallet}
                 />
               </Box>
               )}
 
               <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
-              <TextField id="amount" label="Amount" variant="standard" type="number" placeholder="0.00"
+              <TextField 
+                id="amount" 
+                label="Amount" 
+                variant="standard" 
+                type="number" 
+                placeholder="0.00"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 />
