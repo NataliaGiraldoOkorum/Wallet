@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { ModalAlert }  from './components/ModalAlert';
+import { ModalAlert } from './components/ModalAlert';
 import { useSubscribe, useFind } from 'meteor/react-meteor-data';
 import SelectContact from './components/SelectContact';
 import Loading from './components/Loading';
+import WalletsCollection from '../api/WalletsCollection';
 
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -13,15 +14,18 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 
 
+
 export default function Wallet() {
   const isLoadingContacts = useSubscribe('contacts');
-    const contacts = useFind(() => 
+  const isLoadingWallets = useSubscribe('wallets');
+  const contacts = useFind(() =>
     ContactsCollection.find(
-      { archived: { $ne: true }}, 
+      { archived: { $ne: true } },
       { sort: { createdAt: -1 } }
-      )
-    );
+    )
+  );
 
+  const [wallet1] = useFind(() => WalletsCollection.find());
 
   const [open, setOpen] = React.useState(false);
   const [isTransfering, setIsTransfering] = React.useState(false);
@@ -30,17 +34,25 @@ export default function Wallet() {
   const [errorMessage, setErrorMessage] = React.useState("");
 
 
-  const wallet1 = {
-    _id: "123123123",
-    balance: 5,
-    currency: 'USD'
-  };
-
   const addTransaction = () => {
-    console.log('New transaction', amount, destinationWallet);
+    Meteor.call('transactions.insert', {
+      isTransfering,
+      sourceWalletId: wallet1._id,
+      destinationWalletId: destinationWallet?.walletId || "",
+      amount: Number(amount),
+    }, (errorResponse) => {
+      if (errorResponse) {
+        setErrorMessage(errorResponse.error);
+      } else {
+        setOpen(false);
+        setDestinationWallet({});
+        setAmount(0);
+        setErrorMessage("");
+      }
+    })
   }
 
-  if(isLoadingContacts()){
+  if (isLoadingContacts() || isLoadingWallets()) {
     return <Loading />
   }
 
@@ -50,14 +62,14 @@ export default function Wallet() {
         <Box sx={{
           width: 300,
           height: 50
-        }}>          
+        }}>
           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
             Main Account
           </Typography>
           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
             Wallet ID:
           </Typography>
-          <Box display="flex"  justifyContent="space-between" >
+          <Box display="flex" justifyContent="space-between" >
             <Typography variant="subtitle2" >
               {wallet1._id}
             </Typography>
@@ -73,6 +85,7 @@ export default function Wallet() {
           size="small"
           onClick={() => {
             setIsTransfering(false);
+            setErrorMessage("");
             setOpen(true);
           }}
         >
@@ -83,6 +96,7 @@ export default function Wallet() {
           size="small"
           onClick={() => {
             setIsTransfering(true);
+            setErrorMessage("");
             setOpen(true);
           }}
         >
@@ -92,9 +106,9 @@ export default function Wallet() {
     </>
   );
 
-  return(
+  return (
     <>
-     <Box sx={{ minWidth: 275 }}>
+      <Box sx={{ minWidth: 275 }}>
         <Card variant="outlined">{card}</Card>
       </Box>
       <ModalAlert
@@ -107,30 +121,27 @@ export default function Wallet() {
           <>
             {isTransfering && (
               <Box >
-              {/* <TextField id="destination" label="Destination Wallet" variant="standard" type="text"
-                value={destinationWallet}
-                onChange={(e) => setDestinationWallet(e.target.value)}
-                /> */}
-                <SelectContact 
+                <SelectContact
                   title="Destination contact"
-                  contacts= {contacts}
-                  selected ={destinationWallet}
+                  contacts={contacts}
+                  selected={destinationWallet}
                   setSelected={setDestinationWallet}
                 />
               </Box>
-              )}
+            )}
 
-              <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
-              <TextField 
-                id="amount" 
-                label="Amount" 
-                variant="standard" 
-                type="number" 
+            <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
+              <TextField
+                id="amount"
+                label="Amount"
+                variant="standard"
+                type="number"
                 placeholder="0.00"
                 value={amount}
+                min={0}
                 onChange={(e) => setAmount(e.target.value)}
-                />
-              </Box>
+              />
+            </Box>
           </>
         }
         footer={

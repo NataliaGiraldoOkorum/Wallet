@@ -47,9 +47,11 @@ export const ContactList = () => {
             }}
           >
         <ListItem alignItems="flex-start">
+            {contact.imageURL && (
             <ListItemAvatar>
                 <Avatar alt="" src={contact.imageURL} />
             </ListItemAvatar>
+            )}
             <ListItemText
                 primary={contact.name}
                 secondary={<>
