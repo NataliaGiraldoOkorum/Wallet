@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
-import TransactionsCollection, { ADD_TYPE, TRANSFER_TYPE } from "../collections/TransactionsCollection";
+import { TransactionsCollection }  from "../collections/TransactionsCollection";
+import { ADD_TYPE, TRANSFER_TYPE } from "../collections/TransactionsCollection";
 import SimpleSchema from "simpl-schema";
 
 Meteor.methods({

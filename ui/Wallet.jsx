@@ -27,7 +27,6 @@ export default function Wallet() {
   );
 
   const [wallet1] = useFind(() => WalletsCollection.find());
-
   const [open, setOpen] = React.useState(false);
   const [isTransfering, setIsTransfering] = React.useState(false);
   const [amount, setAmount] = React.useState(0);
@@ -36,7 +35,9 @@ export default function Wallet() {
 
 
   const addTransaction = () => {
-    Meteor.call('transactions.insert', {
+    Meteor.call(
+      'transactions.insert', 
+      {
       isTransfering,
       sourceWalletId: wallet1._id,
       destinationWalletId: destinationWallet ?.walletId || "",
@@ -58,7 +59,8 @@ export default function Wallet() {
         setAmount(0);
         setErrorMessage("");
       }
-    })
+    }
+    )
   }
 
   if (isLoadingContacts() || isLoadingWallets()) {
@@ -161,7 +163,8 @@ export default function Wallet() {
             onClick={addTransaction}
           >
             {isTransfering ? "Transfer" : "Add"}
-          </Button>}
+          </Button>
+          }
         errorMessage={errorMessage}
       />
     </>

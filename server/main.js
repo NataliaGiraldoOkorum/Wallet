@@ -7,7 +7,7 @@ import "../api/collections/TransactionsCollection"
 import "../api/methods/TransactionsMethods";
 import "../api/publications/WalletsPublications";
 import "../infra/CustomError";
-
+import "../infra/accounts";
 
 
 Meteor.startup( () => {
