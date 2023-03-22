@@ -1,24 +1,21 @@
 import * as React from 'react';
-import { ModalAlert } from './components/ModalAlert';
+import { ModalAlert } from './components/ModalAlert.jsx';
 import { useSubscribe, useFind } from 'meteor/react-meteor-data';
-import SelectContact from './components/SelectContact';
-import Loading from './components/Loading';
+import SelectContact from './components/SelectContact.jsx';
+import Loading from './components/Loading.jsx';
 import WalletsCollection from '../api/collections/WalletsCollection';
 import ContactsCollection from '../api/collections/ContactsCollection';
-
 import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import Card from '@mui/material/Card';
 import TextField from '@mui/material/TextField';
 
-
-
 export default function Wallet() {
-  const isLoadingContacts = useSubscribe('contacts');
-  const isLoadingWallets = useSubscribe('wallets');
+  const isLoadingContacts = useSubscribe('myContacts');
+  const isLoadingWallets = useSubscribe('myWallet');
   const contacts = useFind(() =>
     ContactsCollection.find(
       { archived: { $ne: true } },
@@ -30,41 +27,40 @@ export default function Wallet() {
   const [open, setOpen] = React.useState(false);
   const [isTransfering, setIsTransfering] = React.useState(false);
   const [amount, setAmount] = React.useState(0);
-  const [destinationWallet, setDestinationWallet] = React.useState({});
-  const [errorMessage, setErrorMessage] = React.useState("");
+  const [destinationContact, setDestinationContact] = React.useState({});
+  const [errorMessage, setErrorMessage] = React.useState('');
 
 
   const addTransaction = () => {
     Meteor.call(
-      'transactions.insert', 
+      'transactions.insert',
       {
-      isTransfering,
-      sourceWalletId: wallet1._id,
-      destinationWalletId: destinationWallet ?.walletId || "",
-      amount: Number(amount),
-    }, 
-    (errorResponse) => {
-      if (errorResponse) {
-        if(errorResponse.error){
-          setErrorMessage(errorResponse.message);
-        }else{
-        errorResponse.details?.forEach((error) => {
-          setErrorMessage(error.message);
-
-        });
+        isTransfering,
+        sourceWalletId: wallet1._id,
+        destinationContactId: destinationContact?._id || '',
+        amount: Number(amount),
+      },
+      (errorResponse) => {
+        if (errorResponse) {
+          if (errorResponse.error) {
+            setErrorMessage(errorResponse.message);
+          } else {
+            errorResponse.details?.forEach((error) => {
+              setErrorMessage(error.message);
+            });
+          }
+        } else {
+          setOpen(false);
+          setDestinationWallet({});
+          setAmount(0);
+          setErrorMessage('');
+        }
       }
-      } else {
-        setOpen(false);
-        setDestinationWallet({});
-        setAmount(0);
-        setErrorMessage("");
-      }
-    }
-    )
-  }
+    );
+  };
 
   if (isLoadingContacts() || isLoadingWallets()) {
-    return <Loading />
+    return <Loading />;
   }
 
   const card = (
@@ -72,7 +68,7 @@ export default function Wallet() {
       <CardContent>
         <Box sx={{
           width: 300,
-          height: 50
+          height: 50,
         }}>
           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
             Main Account
@@ -92,22 +88,22 @@ export default function Wallet() {
       </CardContent>
       <CardActions>
         <Button
-          variant='contained'
+          variant="contained"
           size="small"
           onClick={() => {
             setIsTransfering(false);
-            setErrorMessage("");
+            setErrorMessage('');
             setOpen(true);
           }}
         >
           Add money
         </Button>
         <Button
-          variant='contained'
+          variant="contained"
           size="small"
           onClick={() => {
             setIsTransfering(true);
-            setErrorMessage("");
+            setErrorMessage('');
             setOpen(true);
           }}
         >
@@ -135,8 +131,8 @@ export default function Wallet() {
                 <SelectContact
                   title="Destination contact"
                   contacts={contacts}
-                  selected={destinationWallet}
-                  setSelected={setDestinationWallet}
+                  selected={destinationContact}
+                  setSelected={setDestinationContact}
                 />
               </Box>
             )}
@@ -157,14 +153,14 @@ export default function Wallet() {
         }
         footer={
           <Button
-            type='button'
-            variant='contained'
+            type="button"
+            variant="contained"
             size="small"
             onClick={addTransaction}
           >
-            {isTransfering ? "Transfer" : "Add"}
+            {isTransfering ? 'Transfer' : 'Add'}
           </Button>
-          }
+        }
         errorMessage={errorMessage}
       />
     </>

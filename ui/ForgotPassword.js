@@ -3,12 +3,13 @@ import { Meteor } from 'meteor/meteor';
 import React, { useState } from 'react';
 import { Accounts } from 'meteor/accounts-base';
 import { useNavigate } from 'react-router-dom';
+import { RoutePaths } from './RoutePaths';
+import ErrorAlert from './components/ErrorAlert';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
-import ErrorAlert from './components/ErrorAlert';
 import Alert from '@mui/material/Alert';
-import { RoutePaths } from './RoutePaths';
+
 
 export const ForgotPassword = () => {
     const navigate = useNavigate();
@@ -26,10 +27,10 @@ export const ForgotPassword = () => {
             setEmail('');
             setError(null);
             <Alert severity="success" color="info">
-                You should receve a reset email!
-            </Alert>
-        })
-    }
+                You should receive a reset email!
+            </Alert>;
+        });
+    };
 
     return (
         <div>
@@ -40,14 +41,18 @@ export const ForgotPassword = () => {
             <form>
                 <Grid container spacing={0}>
                     <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
-                        <TextField id="email" label="email" variant="standard" value={email}
+                        <TextField
+                            id="email"
+                            label="email"
+                            variant="standard"
+                            value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             type="text" />
                     </Box>
                 </Grid>
             </form>
             <Button
-                variant='contained'
+                variant="contained"
                 size="small"
                 color="primary"
                 onClick={forgotPassword}
@@ -57,13 +62,13 @@ export const ForgotPassword = () => {
             </Button>
 
             <Button
-                variant='contained'
+                variant="contained"
                 size="small"
                 color="primary"
-                onClick={() => navigate('/sign-up')}
+                onClick={() => navigate(RoutePaths.ACCESS)}
             >
                 Back to Access
             </Button>
         </div>
-    )
-}
+    );
+};

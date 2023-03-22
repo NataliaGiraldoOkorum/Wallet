@@ -12,11 +12,14 @@ const WalletsSchema = new SimpleSchema({
     },
     currency: {
        type: String,
-       allowedValues: ["USD"],
-       defaultValue:"USD",
+       allowedValues: ['USD'],
+       defaultValue: 'USD',
     },
   createdAt: {
     type: Date,
+  },
+  userId: {
+    type: String,
   },
 });
 

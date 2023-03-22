@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter} from "react-router-dom"
+import { BrowserRouter } from 'react-router-dom';
 import ButtonAppBar from './ButtonAppBar';
 import { Router } from './Router';
 
@@ -12,8 +12,5 @@ export const App = () => (
         <Router/>
       </div>
     </div>
-    </BrowserRouter>
+  </BrowserRouter>
 );
-
-
-

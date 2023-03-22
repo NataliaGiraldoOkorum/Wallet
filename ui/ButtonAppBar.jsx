@@ -27,20 +27,20 @@ export default function ButtonAppBar() {
           <div>
             {!isLoadingLoggedUser && !loggedUser && (
               <Button
-                variant='contained'
+                variant="contained"
                 size="small"
                 color="secondary"
-                onClick={() => navigate('/sign-up')}
+                onClick={() => navigate(RoutePaths.ACCESS)}
               >
                 Sign Up
               </Button>
             )}
             {!isLoadingLoggedUser && loggedUser && (
               <Button
-                variant='contained'
+                variant="contained"
                 size="small"
                 color="secondary"
-                onClick={() => Meteor.logout('/sign-up')}
+                onClick={() => Meteor.logout(RoutePaths.ACCESS)}
               >
                 Log Out
               </Button>

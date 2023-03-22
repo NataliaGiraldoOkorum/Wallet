@@ -1,10 +1,17 @@
-import ContactsCollection from "../collections/ContactsCollection"
-import { Meteor } from "meteor/meteor";
+import ContactsCollection from '../collections/ContactsCollection';
+import { Meteor } from 'meteor/meteor';
 
-Meteor.publish('allContacts', function publishAllContacts() {
-    return ContactsCollection.find();
-}) 
-
-Meteor.publish('contacts', function publishAllContacts() {
-    return ContactsCollection.find({ archived: { $ne: true }});
-}) 
+Meteor.publish('myContacts', function publishContacts() {
+    const { userId } = this;
+    if (!userId) {
+        throw Meteor.Error('Access denied');
+    }
+    return ContactsCollection.find(
+        { userId, archived: { $ne: true } },
+        {
+            fields: {
+                createdAt: false,
+            },
+        }
+    );
+});

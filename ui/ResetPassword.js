@@ -17,10 +17,10 @@ export const ResetPassword = () => {
     const [error, setError] = useState();
 
 
-    console.log(`token`, token);
+    console.log('token', token);
     const resetPassword = (e) => {
         e.preventDefault();
-        Accounts.resetPassword(token, password,(err) => {
+        Accounts.resetPassword(token, password, (err) => {
             if (err) {
                 console.error('Error trying to reset the paassword', err);
                 setError(err);
@@ -30,10 +30,10 @@ export const ResetPassword = () => {
             setError(null);
             <Alert severity="success" color="info">
                Your new password is set, please sign in!
-            </Alert>
+            </Alert>;
             navigate(RoutePaths.ACCESS);
-        })
-    }
+        });
+    };
     return (
         <div>
             <h3>
@@ -43,14 +43,18 @@ export const ResetPassword = () => {
             <form>
                 <Grid container spacing={0}>
                     <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
-                        <TextField id="password" label="Password" variant="standard" value={password}
+                        <TextField
+id="password"
+label="Password"
+variant="standard"
+value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             type="text" />
                     </Box>
                 </Grid>
             </form>
             <Button
-                variant='contained'
+                variant="contained"
                 size="small"
                 color="primary"
                 onClick={resetPassword}
@@ -60,7 +64,7 @@ export const ResetPassword = () => {
             </Button>
 
             <Button
-                variant='contained'
+                variant="contained"
                 size="small"
                 color="primary"
                 onClick={() => navigate(RoutePaths.HOME)}
@@ -68,5 +72,5 @@ export const ResetPassword = () => {
                 Back to Home
             </Button>
         </div>
-    )
-}
+    );
+};
