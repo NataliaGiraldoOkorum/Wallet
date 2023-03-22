@@ -37,12 +37,14 @@ export default function Wallet() {
   const addTransaction = () => {
     Meteor.call('transactions.insert', {
       isTransfering,
-      sourceWalletId: wallet1._id,
+      // sourceWalletId: wallet1._id,
       destinationWalletId: destinationWallet?.walletId || "",
       amount: Number(amount),
     }, (errorResponse) => {
       if (errorResponse) {
-        setErrorMessage(errorResponse.error);
+        errorResponse.details?.forEach((error) => {
+          setErrorMessage(error.message);
+        });
       } else {
         setOpen(false);
         setDestinationWallet({});

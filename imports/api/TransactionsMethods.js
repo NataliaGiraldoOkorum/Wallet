@@ -1,24 +1,29 @@
 import { Meteor } from 'meteor/meteor';
-import { check } from 'meteor/check';
-import { ImportContactsRounded } from "@mui/icons-material";
 import TransactionsCollection from "./TransactionsCollection";
+import SimpleSchema from "simpl-schema";
 
 Meteor.methods({
-   'transactions.insert'({ isTransfering, sourceWalletId, destinationWalletId, amount }) {
-        check(isTransfering, Boolean);
-        check(sourceWalletId, String);
-        check(destinationWalletId, String);
-        check(amount, Number);
+   'transactions.insert'(args) {
 
-        if (!sourceWalletId) {
-            throw new Meteor.Error("Source wallet is required");
-        }
-        if (!isTransfering && !destinationWalletId) {
-            throw new Meteor.Error("Destination wallet is required");
-        }
-        if(!amount || amount <= 0 ){
-            throw new Meteor.Error("Amount is required");
-        }
+    const schema = new SimpleSchema({
+        isTransfering: {
+           type: Boolean,
+        },
+        sourceWalletId: {
+           type: String,
+        },
+        destinationWalletId: {
+            type: String,
+            optional: !args.isTransfering,
+         },
+         amount: {
+            type: Number,
+            min: 1,
+         },
+    });
+    const cleanArgs = schema.clean(args);
+    schema.validate(cleanArgs);
+    const { isTransfering, sourceWalletId, destinationWalletId, amount } = args;
         return TransactionsCollection.insert({ 
             type: isTransfering? 'TRANFER' : 'ADD', 
             sourceWalletId, 

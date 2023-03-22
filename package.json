@@ -19,7 +19,8 @@
     "meteor-node-stubs": "^1.2.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-material-ui-form-validator": "^3.0.1"
+    "react-material-ui-form-validator": "^3.0.1",
+    "simpl-schema": "^3.4.1"
   },
   "meteor": {
     "mainModule": {
