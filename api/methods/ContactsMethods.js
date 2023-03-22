@@ -1,4 +1,4 @@
-import ContactsCollection from "../collections/ContactsCollection";
+import ContactsCollection  from "../collections/ContactsCollection";
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 import { ImportContactsRounded } from "@mui/icons-material";

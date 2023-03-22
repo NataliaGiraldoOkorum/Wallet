@@ -25,7 +25,7 @@ Meteor.methods({
     schema.validate(cleanArgs);
     const { isTransfering, sourceWalletId, destinationWalletId, amount } = args;
         return TransactionsCollection.insert({ 
-            type: isTransfering? TRANSFER_TYPE : ADD_TYPE, 
+            type: isTransfering ? TRANSFER_TYPE : ADD_TYPE, 
             sourceWalletId, 
             destinationWalletId: isTransfering ? destinationWalletId : null, 
             amount, 

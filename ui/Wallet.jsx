@@ -4,6 +4,7 @@ import { useSubscribe, useFind } from 'meteor/react-meteor-data';
 import SelectContact from './components/SelectContact';
 import Loading from './components/Loading';
 import WalletsCollection from '../api/collections/WalletsCollection';
+import ContactsCollection from '../api/collections/ContactsCollection';
 
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -37,14 +38,20 @@ export default function Wallet() {
   const addTransaction = () => {
     Meteor.call('transactions.insert', {
       isTransfering,
-      // sourceWalletId: wallet1._id,
-      destinationWalletId: destinationWallet?.walletId || "",
+      sourceWalletId: wallet1._id,
+      destinationWalletId: destinationWallet ?.walletId || "",
       amount: Number(amount),
-    }, (errorResponse) => {
+    }, 
+    (errorResponse) => {
       if (errorResponse) {
+        if(errorResponse.error){
+          setErrorMessage(errorResponse.message);
+        }else{
         errorResponse.details?.forEach((error) => {
           setErrorMessage(error.message);
+
         });
+      }
       } else {
         setOpen(false);
         setDestinationWallet({});

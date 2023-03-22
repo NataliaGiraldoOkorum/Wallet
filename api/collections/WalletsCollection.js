@@ -3,6 +3,7 @@ import SimpleSchema from 'simpl-schema';
 
 export default WalletsCollection = new Mongo.Collection('wallets');
 
+
 const WalletsSchema = new SimpleSchema({
     balance: {
        type: Number,

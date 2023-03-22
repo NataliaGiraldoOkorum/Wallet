@@ -1,12 +1,11 @@
 import { Meteor } from 'meteor/meteor';
-import WalletsCollection from '../imports/api/collections/WalletsCollection';
-import "../imports/api/collections/ContactsCollection";
-import "../imports/api/methods/ContactsMethods";
-import "../imports/api/publications/ContactsPublications";
-import "../imports/api/collections/WalletsCollection"
-import "../imports/api/collections/TransactionsCollection"
-import "../imports/api/methods/TransactionsMethods";
-import "../imports/api/publications/WalletsPublications";
+import "../api/collections/ContactsCollection";
+import "../api/methods/ContactsMethods";
+import "../api/publications/ContactsPublications";
+import "../api/collections/WalletsCollection"
+import "../api/collections/TransactionsCollection"
+import "../api/methods/TransactionsMethods";
+import "../api/publications/WalletsPublications";
 import "../infra/CustomError";
 
 
