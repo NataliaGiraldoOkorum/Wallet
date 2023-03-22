@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import TransactionsCollection from "./TransactionsCollection";
+import TransactionsCollection, { ADD_TYPE, TRANSFER_TYPE } from "../collections/TransactionsCollection";
 import SimpleSchema from "simpl-schema";
 
 Meteor.methods({
@@ -25,7 +25,7 @@ Meteor.methods({
     schema.validate(cleanArgs);
     const { isTransfering, sourceWalletId, destinationWalletId, amount } = args;
         return TransactionsCollection.insert({ 
-            type: isTransfering? 'TRANFER' : 'ADD', 
+            type: isTransfering? TRANSFER_TYPE : ADD_TYPE, 
             sourceWalletId, 
             destinationWalletId: isTransfering ? destinationWalletId : null, 
             amount, 

@@ -3,7 +3,7 @@ import { ModalAlert } from './components/ModalAlert';
 import { useSubscribe, useFind } from 'meteor/react-meteor-data';
 import SelectContact from './components/SelectContact';
 import Loading from './components/Loading';
-import WalletsCollection from '../api/WalletsCollection';
+import WalletsCollection from '../api/collections/WalletsCollection';
 
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
