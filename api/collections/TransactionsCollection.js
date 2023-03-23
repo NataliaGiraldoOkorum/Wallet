@@ -1,4 +1,5 @@
 import { Mongo } from 'meteor/mongo';
+import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import WalletsCollection from './WalletsCollection';
 
@@ -7,7 +8,6 @@ export const ADD_TYPE = 'ADD';
 
 
 export const TransactionsCollection = new Mongo.Collection('transactions');
-
 
 TransactionsCollection.before.insert(function (userId, transactionDocument) {
     if (transactionDocument.type === TRANSFER_TYPE) {
@@ -23,9 +23,6 @@ TransactionsCollection.before.insert(function (userId, transactionDocument) {
         WalletsCollection.update(transactionDocument.sourceWalletId, {
             $inc: { balance: -transactionDocument.amount },
         });
-        WalletsCollection.update(transactionDocument.destinationWalletId, {
-            $inc: { balance: transactionDocument.amount },
-        });
     }
     if (transactionDocument.type === ADD_TYPE) {
         const sourceWallet = WalletsCollection.findOne(
@@ -39,6 +36,33 @@ TransactionsCollection.before.insert(function (userId, transactionDocument) {
         });
     }
 });
+
+TransactionsCollection.before.remove(function (userId, transactionDocument) {
+    if (transactionDocument.type === TRANSFER_TYPE) {
+        const sourceWallet = WalletsCollection.findOne(
+            transactionDocument.sourceWalletId
+        );
+        if (!sourceWallet) {
+            throw new Meteor.Error('Source Wallet not found');
+        }
+        WalletsCollection.update(transactionDocument.sourceWalletId, {
+            $inc: { balance: transactionDocument.amount },
+        });
+    }
+    if (transactionDocument.type === ADD_TYPE) {
+        const sourceWallet = WalletsCollection.findOne(
+            transactionDocument.sourceWalletId
+        );
+        if (!sourceWallet) {
+            throw new Meteor.Error('Source Wallet not found');
+        }
+        WalletsCollection.update(transactionDocument.sourceWalletId, {
+            $inc: { balance: -transactionDocument.amount },
+        });
+    }
+});
+
+
 
 const TransactionsSchema = new SimpleSchema({
     type: {

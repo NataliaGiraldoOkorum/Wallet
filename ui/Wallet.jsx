@@ -2,6 +2,7 @@ import * as React from 'react';
 import { ModalAlert } from './components/ModalAlert.jsx';
 import { useSubscribe, useFind } from 'meteor/react-meteor-data';
 import { useLoggedUser } from 'meteor/quave:logged-user-react';
+import { Meteor } from 'meteor/meteor';
 import SelectContact from './components/SelectContact.jsx';
 import Loading from './components/Loading.jsx';
 import WalletsCollection from '../api/collections/WalletsCollection';
@@ -15,7 +16,6 @@ import Card from '@mui/material/Card';
 import TextField from '@mui/material/TextField';
 
 export default function Wallet() {
-
   const { loggedUser, isLoadingLoggedUser } = useLoggedUser();
   const isLoadingContacts = useSubscribe('myContacts');
   const isLoadingWallets = useSubscribe('myWallet');
@@ -39,7 +39,7 @@ export default function Wallet() {
       'transactions.insert',
       {
         isTransfering,
-        sourceWalletId: wallet1._id,
+        sourceWalletId: wallet1?._id,
         destinationContactId: destinationContact?._id || '',
         amount: Number(amount),
       },
@@ -48,7 +48,7 @@ export default function Wallet() {
           if (errorResponse.error) {
             setErrorMessage(errorResponse.message);
           } else {
-            errorResponse.details?.forEach((error) => {
+            errorResponse.details.forEach((error) => {
               setErrorMessage(error.message);
             });
           }

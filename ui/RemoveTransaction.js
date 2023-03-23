@@ -1,8 +1,7 @@
 import { Button } from '@mui/material';
 import { Meteor } from 'meteor/meteor';
 import React, { useState } from 'react';
-import { Accounts } from 'meteor/accounts-base';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
@@ -10,45 +9,42 @@ import ErrorAlert from './components/ErrorAlert';
 import Alert from '@mui/material/Alert';
 import { RoutePaths } from './RoutePaths';
 
-export const ResetPassword = () => {
+export const RemoveTransaction = () => {
     const navigate = useNavigate();
-    const { token } = useParams();
-    const [password, setPassword] = useState('');
+    const [transactionId, setTransactionId] = useState('');
     const [error, setError] = useState();
 
-
-    console.log('token', token);
-    const resetPassword = (e) => {
+    const removeTransaction = (e) => {
         e.preventDefault();
-        Accounts.resetPassword(token, password, (err) => {
+        Meteor.call('transactions.remove', transactionId, (err) => {
             if (err) {
-                console.error('Error trying to reset the paassword', err);
+                console.error('Error trying to remove a transaction', err);
                 setError(err);
                 return;
             }
-            setPassword('');
+            setTransactionId('');
             setError(null);
-            <Alert severity="success" color="info">
-               Your new password is set, please sign in!
+            <Alert severity="info">
+            The transaction removed!
             </Alert>;
-            navigate(RoutePaths.ACCESS);
+
         });
     };
     return (
         <div>
             <h3>
-                Reset your Password
+                Remove to Transaction
             </h3>
             {error && <ErrorAlert message={error.reason || 'Uknown error'} />}
             <form>
                 <Grid container spacing={0}>
                     <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
                         <TextField
-                            id="password"
-                            label="Password"
+                            id="transactionId"
+                            label="Transaction ID"
                             variant="standard"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            value={transactionId}
+                            onChange={(e) => setTransactionId(e.target.value)}
                             type="text" />
                     </Box>
                 </Grid>
@@ -57,10 +53,10 @@ export const ResetPassword = () => {
                 variant="contained"
                 size="small"
                 color="primary"
-                onClick={resetPassword}
+                onClick={removeTransaction}
                 type="submit"
             >
-                Set New Password
+                Remove
             </Button>
 
             <Button
