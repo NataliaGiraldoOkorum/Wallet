@@ -28,23 +28,7 @@ export const Router = () => (
             <Access/>
         </AnonymousOnly>
     }
-    />
-    <Route
-    path={RoutePaths.FORGOT_PASSWORD}
-    element={
-        <AnonymousOnly>
-            <ForgotPassword />
-        </AnonymousOnly>
-    }
-    />
-    <Route
-    path={`${RoutePaths.RESET_PASSWORD}/:token`}
-    element={
-        <AnonymousOnly>
-            <ResetPassword />
-        </AnonymousOnly>
-    }
-    />
+    />  
     <Route
     path={RoutePaths.REMOVE_TRANSACTION}
     element={
