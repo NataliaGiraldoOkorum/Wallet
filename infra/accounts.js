@@ -15,6 +15,13 @@ Accounts.onCreateUser((options, user) => {
     console.log(`options`, options);
     console.log(`user`, user);
 
-    WalletsCollection.insert({userId: user._id, createdAt: new Date()})
+    WalletsCollection.insert({userId: user._id, createdAt: new Date()});
+
+    customizedUser.email = user.emails[0].address;
     return customizedUser;
 });
+
+Accounts.setDefaultPublishFields({
+    ...Accounts._defaultPublishFields.projection,
+    email: 1,
+})

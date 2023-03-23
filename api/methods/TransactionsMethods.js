@@ -1,10 +1,13 @@
 import { Meteor } from 'meteor/meteor';
-import { TransactionsCollection }  from "../collections/TransactionsCollection";
-import { ADD_TYPE, TRANSFER_TYPE } from "../collections/TransactionsCollection";
-import SimpleSchema from "simpl-schema";
+import { TransactionsCollection, ADD_TYPE, TRANSFER_TYPE } from '../collections/TransactionsCollection';
+import SimpleSchema from 'simpl-schema';
 
 Meteor.methods({
    'transactions.insert'(args) {
+      const { userId } = this;
+      if (!userId) {
+         throw Meteor.Error('Access denied');
+      }
 
     const schema = new SimpleSchema({
         isTransfering: {
@@ -24,14 +27,15 @@ Meteor.methods({
     });
     const cleanArgs = schema.clean(args);
     schema.validate(cleanArgs);
+
     const { isTransfering, sourceWalletId, destinationWalletId, amount } = args;
-        return TransactionsCollection.insert({ 
-            type: isTransfering ? TRANSFER_TYPE : ADD_TYPE, 
-            sourceWalletId, 
-            destinationWalletId: isTransfering ? destinationWalletId : null, 
-            amount, 
-            createdAt: new Date(), 
+        return TransactionsCollection.insert({
+            type: isTransfering ? TRANSFER_TYPE : ADD_TYPE,
+            sourceWalletId,
+            destinationWalletId: isTransfering ? destinationWalletId : null,
+            amount,
+            createdAt: new Date(),
+            userId,
         });
     },
 });
-

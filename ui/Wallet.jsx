@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { ModalAlert } from './components/ModalAlert.jsx';
 import { useSubscribe, useFind } from 'meteor/react-meteor-data';
+import { useLoggedUser } from 'meteor/quave:logged-user-react';
 import SelectContact from './components/SelectContact.jsx';
 import Loading from './components/Loading.jsx';
 import WalletsCollection from '../api/collections/WalletsCollection';
@@ -14,6 +15,8 @@ import Card from '@mui/material/Card';
 import TextField from '@mui/material/TextField';
 
 export default function Wallet() {
+
+  const { loggedUser, isLoadingLoggedUser } = useLoggedUser();
   const isLoadingContacts = useSubscribe('myContacts');
   const isLoadingWallets = useSubscribe('myWallet');
   const contacts = useFind(() =>
@@ -51,7 +54,7 @@ export default function Wallet() {
           }
         } else {
           setOpen(false);
-          setDestinationWallet({});
+          setDestinationContact({});
           setAmount(0);
           setErrorMessage('');
         }
@@ -70,19 +73,27 @@ export default function Wallet() {
           width: 300,
           height: 50,
         }}>
+
           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-            Main Account
-          </Typography>
-          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-            Wallet ID:
+            Email:
           </Typography>
           <Box display="flex" justifyContent="space-between" >
             <Typography variant="subtitle2" >
-              {wallet1._id}
+              {loggedUser?.email}
             </Typography>
-            <Typography variant="subtitle2">
-              {`${wallet1.balance} ${wallet1.currency}`}
+
+            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+              Wallet ID:
             </Typography>
+            <Box display="flex" justifyContent="space-between" >
+              <Typography variant="subtitle2" >
+                {wallet1._id}
+              </Typography>
+
+              <Typography variant="subtitle2">
+                {`${wallet1.balance} ${wallet1.currency}`}
+              </Typography>
+            </Box>
           </Box>
         </Box>
       </CardContent>
