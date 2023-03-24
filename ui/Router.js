@@ -4,8 +4,6 @@ import { Home } from './Home';
 import { NotFound } from './NotFound';
 import { RoutePaths } from './RoutePaths';
 import { Access } from './Access';
-import { ForgotPassword } from './ForgotPassword';
-import { ResetPassword } from './ResetPassword';
 import { LoggedUserOnly } from './components/LoggedUserOnly';
 import { AnonymousOnly } from './components/AnonymousOnly';
 import { RemoveTransaction } from './RemoveTransaction';
@@ -28,7 +26,7 @@ export const Router = () => (
             <Access/>
         </AnonymousOnly>
     }
-    />  
+    />
     <Route
     path={RoutePaths.REMOVE_TRANSACTION}
     element={

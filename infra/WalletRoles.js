@@ -1,3 +1,3 @@
 export const WalletRoles = {
-    ADMIN: 'admin'
-}
+    ADMIN: 'admin',
+};

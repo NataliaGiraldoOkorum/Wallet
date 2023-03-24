@@ -46,7 +46,7 @@ export const ContactForm = () => {
 
   return (
     <>
-      <br/>
+      <br />
       <form>
         {error && <ErrorAlert message={error} />}
         {success && <SuccessAlert message={success} />}
@@ -54,50 +54,50 @@ export const ContactForm = () => {
           <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
             <AccountCircle sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
             <TextField
-id="name"
-label="Name"
-variant="standard"
-value={name}
+              id="name"
+              label="Name"
+              variant="standard"
+              value={name}
               onChange={(e) => setName(e.target.value)}
               type="text" />
           </Box>
           <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
             <AccountCircle sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
             <TextField
-id="email"
-label="Email"
-variant="standard"
-type="email"
+              id="email"
+              label="Email"
+              variant="standard"
+              type="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}/>
+              onChange={(e) => setEmail(e.target.value)} />
           </Box>
           <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
             <AccountCircle sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
             <TextField
-id="walletID"
-label="Wallet ID"
-variant="standard"
-type="text"
+              id="walletID"
+              label="Wallet ID"
+              variant="standard"
+              type="text"
               value={walletId}
               onChange={(e) => setWalletId(e.target.value)}
-              />
+            />
           </Box>
           <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
             <AccountCircle sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
             <TextField
-id="imageURL"
-label="ImageURL"
-variant="standard"
-type="text"
+              id="imageURL"
+              label="ImageURL"
+              variant="standard"
+              type="text"
               value={imageURL}
               onChange={(e) => setImageURL(e.target.value)}
-              />
+            />
           </Box>
         </Grid>
-          <br/>
-          <br/>
+        <br />
+        <br />
 
-          <Button variant="contained" onClick={saveContact}>Save Contact</Button>
+        <Button variant="contained" onClick={saveContact}>Save Contact</Button>
       </form>
     </>
   );

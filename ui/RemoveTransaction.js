@@ -24,10 +24,6 @@ export const RemoveTransaction = () => {
             }
             setTransactionId('');
             setError(null);
-            <Alert severity="info">
-            The transaction removed!
-            </Alert>;
-
         });
     };
     return (

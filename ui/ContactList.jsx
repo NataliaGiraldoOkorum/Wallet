@@ -52,30 +52,30 @@ export const ContactList = () => {
                 <ListItemText
                     primary={contact.name}
                     secondary={
-                    <>
-                        <Typography
-                            sx={{ display: 'block' }}
-                            component="span"
-                            variant="body3"
-                            color="text.primary"
-                        >
-                            {contact.email}
-                        </Typography>
-                        <Typography
-                            sx={{ display: 'block' }}
-                            component="span"
-                            variant="body3"
-                            color="text.primary"
-                        >
-                            {contact.walletId}
-                        </Typography>
-                        <IconButton
-                            aria-label="delete"
-                            onClick={(event) =>
-                            archiveContact(event, contact._id)}>
-                            <ArchiveIcon />
-                        </IconButton>
-                    </>
+                        <>
+                            <Typography
+                                sx={{ display: 'block' }}
+                                component="span"
+                                variant="body3"
+                                color="text.primary"
+                            >
+                                {contact.email}
+                            </Typography>
+                            <Typography
+                                sx={{ display: 'block' }}
+                                component="span"
+                                variant="body3"
+                                color="text.primary"
+                            >
+                                {contact.walletId}
+                            </Typography>
+                            <IconButton
+                                aria-label="delete"
+                                onClick={(event) =>
+                                    archiveContact(event, contact._id)}>
+                                <ArchiveIcon />
+                            </IconButton>
+                        </>
                     }
                 />
             </ListItem>

@@ -16,7 +16,7 @@ export const Access = () => {
     };
 
     return (
-        <div className="flex flex-col items-center">
+        <div>
             <Passwordless onEnterToken={onEnterToken}/>
             <Button onClick={loginWithGoogle}>
                 Login With Google

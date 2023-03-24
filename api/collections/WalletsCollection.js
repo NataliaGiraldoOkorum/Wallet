@@ -5,16 +5,16 @@ export default WalletsCollection = new Mongo.Collection('wallets');
 
 
 const WalletsSchema = new SimpleSchema({
-    balance: {
-       type: Number,
-       min: 0,
-       defaultValue: 0,
-    },
-    currency: {
-       type: String,
-       allowedValues: ['USD'],
-       defaultValue: 'USD',
-    },
+  balance: {
+    type: Number,
+    min: 0,
+    defaultValue: 0,
+  },
+  currency: {
+    type: String,
+    allowedValues: ['USD'],
+    defaultValue: 'USD',
+  },
   createdAt: {
     type: Date,
   },

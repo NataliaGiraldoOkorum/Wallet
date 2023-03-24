@@ -11,5 +11,4 @@ Meteor.startup(() => {
     }
 
     Roles.addUsersToRoles(user._id, WalletRoles.ADMIN);
-
 });

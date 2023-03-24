@@ -62,8 +62,6 @@ TransactionsCollection.before.remove(function (userId, transactionDocument) {
     }
 });
 
-
-
 const TransactionsSchema = new SimpleSchema({
     type: {
         type: String,
@@ -72,22 +70,22 @@ const TransactionsSchema = new SimpleSchema({
     sourceWalletId: {
         type: String,
         // regEx: SimpleSchema.RegEx.Id,
-      },
+    },
     destinationWalletId: {
-      type: String,
-      optional: true,
-      // regEx: SimpleSchema.RegEx.Id,
+        type: String,
+        optional: true,
+        // regEx: SimpleSchema.RegEx.Id,
     },
     amount: {
-      type: Number,
-      min: 1,
+        type: Number,
+        min: 1,
     },
     createdAt: {
         type: Date,
-      },
-      userId: {
+    },
+    userId: {
         type: String,
-      },
-  });
+    },
+});
 
-  TransactionsCollection.attachSchema(TransactionsSchema);
+TransactionsCollection.attachSchema(TransactionsSchema);

@@ -26,16 +26,19 @@ Accounts.setDefaultPublishFields({
 });
 
 const settings = Meteor.settings || {};
+
 Meteor.startup(() => {
     if (!settings.googleClientId || !settings.googleSecret) {
-        throw new Error('googleClientId and googleSecret are required');
+        throw new Error('googleClientId and googleSecret are requierd');
     }
-    //Accounts.config({restrictCreationByEmailDomain:'okorum.com'});
+  // Accounts.config({ restrictCreationByEmailDomain: 'okorum.com' });
     ServiceConfiguration.configurations.upsert({
         service: 'google',
-    }, { $set: {
-        service: 'google',
-            clienteId: settings.googleClientId,
+    }, {
+        $set: {
+            service: 'google',
+            clientId: settings.googleClientId,
             secret: settings.googleSecret,
-    } });
+        },
+    });
 });

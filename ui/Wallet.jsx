@@ -40,9 +40,11 @@ export default function Wallet() {
       {
         isTransfering,
         sourceWalletId: wallet1?._id,
-        destinationContactId: destinationContact?._id || '',
+        destinationWalletId: destinationContact?._id || '',
         amount: Number(amount),
+      
       },
+      
       (errorResponse) => {
         if (errorResponse) {
           if (errorResponse.error) {
