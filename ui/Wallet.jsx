@@ -42,9 +42,9 @@ export default function Wallet() {
         sourceWalletId: wallet1?._id,
         destinationWalletId: destinationContact?._id || '',
         amount: Number(amount),
-      
+
       },
-      
+
       (errorResponse) => {
         if (errorResponse) {
           if (errorResponse.error) {
@@ -72,18 +72,16 @@ export default function Wallet() {
     <>
       <CardContent>
         <Box sx={{
-          width: 300,
-          height: 50,
+          width: 500,
         }}>
+          <Box justifyContent="space-between" >
+            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+              Email:
+            </Typography>
 
-          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-            Email:
-          </Typography>
-          <Box display="flex" justifyContent="space-between" >
             <Typography variant="subtitle2" >
               {loggedUser?.email}
             </Typography>
-
             <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
               Wallet ID:
             </Typography>
@@ -91,7 +89,6 @@ export default function Wallet() {
               <Typography variant="subtitle2" >
                 {wallet1._id}
               </Typography>
-
               <Typography variant="subtitle2">
                 {`${wallet1.balance} ${wallet1.currency}`}
               </Typography>
